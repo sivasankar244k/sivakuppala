@@ -1,33 +1,38 @@
-// Create a scene
-const scene = new THREE.Scene();
-
-// Create a camera
-const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
-camera.position.z = 5;
-
-// Create a renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("canvas-container").appendChild(renderer.domElement);
-
-// Create a cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-}
-
-animate();
-
+document.addEventListener("DOMContentLoaded", () => {
+    const skillsSection = document.getElementById("skills");
+  
+    // Your skills array
+    const skills = [
+      "Java Development",
+      "JavaScript & DOM Manipulation",
+      "CSS & UI Design",
+      "Debugging & Troubleshooting",
+      "Git & Version Control",
+      "Heap & Thread Dump Analysis",
+      "API Development & Integration",
+    ];
+  
+    // Function to add skills dynamically
+    const loadSkills = () => {
+      skills.forEach((skill, index) => {
+        setTimeout(() => {
+          const skillDiv = document.createElement("div");
+          skillDiv.classList.add("skill");
+          skillDiv.textContent = skill;
+          skillsSection.appendChild(skillDiv);
+        }, index * 500); // Adds delay for dynamic effect
+      });
+    };
+  
+    // Load skills on scroll
+    let skillsLoaded = false;
+    window.addEventListener("scroll", () => {
+      const skillsTop = skillsSection.getBoundingClientRect().top;
+      const triggerPoint = window.innerHeight - 150;
+  
+      if (!skillsLoaded && skillsTop < triggerPoint) {
+        loadSkills();
+        skillsLoaded = true; // Ensure it only loads once
+      }
+    });
+  });
