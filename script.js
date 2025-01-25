@@ -1,38 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const skillsSection = document.getElementById("skills");
+    const skillsContainer = document.querySelector(".skills-container");
   
-    // Your skills array
     const skills = [
-      "Java Development",
-      "JavaScript & DOM Manipulation",
-      "CSS & UI Design",
-      "Debugging & Troubleshooting",
-      "Git & Version Control",
-      "Heap & Thread Dump Analysis",
-      "API Development & Integration",
+      { name: "Java Development", description: "Building scalable back-end applications." },
+      { name: "JavaScript & DOM", description: "Creating dynamic user interfaces." },
+      { name: "CSS & Design", description: "Crafting visually appealing layouts." },
+      { name: "Git & Version Control", description: "Managing codebases effectively." },
+      { name: "Debugging & Analysis", description: "Troubleshooting complex issues." },
+      { name: "API Integration", description: "Seamless API consumption and creation." },
+      { name: "Thread & Heap Dumps", description: "Advanced diagnostics for performance." }
     ];
   
-    // Function to add skills dynamically
-    const loadSkills = () => {
+    // Function to render skills dynamically
+    const renderSkills = () => {
       skills.forEach((skill, index) => {
-        setTimeout(() => {
-          const skillDiv = document.createElement("div");
-          skillDiv.classList.add("skill");
-          skillDiv.textContent = skill;
-          skillsSection.appendChild(skillDiv);
-        }, index * 500); // Adds delay for dynamic effect
+        const skillCard = document.createElement("div");
+        skillCard.classList.add("skill-card", "animated");
+        skillCard.style.animationDelay = `${index * 0.2}s`; // Add delay for each card
+  
+        skillCard.innerHTML = `
+          <h3>${skill.name}</h3>
+          <p>${skill.description}</p>
+        `;
+  
+        skillsContainer.appendChild(skillCard);
       });
     };
   
-    // Load skills on scroll
+    // Trigger skill rendering on scroll
     let skillsLoaded = false;
-    window.addEventListener("scroll", () => {
+  
+    const handleScroll = () => {
+      const skillsSection = document.getElementById("skills");
       const skillsTop = skillsSection.getBoundingClientRect().top;
-      const triggerPoint = window.innerHeight - 150;
+      const triggerPoint = window.innerHeight - 100;
   
       if (!skillsLoaded && skillsTop < triggerPoint) {
-        loadSkills();
-        skillsLoaded = true; // Ensure it only loads once
+        renderSkills();
+        skillsLoaded = true; // Prevent re-rendering
       }
-    });
+    };
+  
+    window.addEventListener("scroll", handleScroll);
   });
